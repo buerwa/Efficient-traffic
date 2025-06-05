@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ title }}</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+      }
+      h1 {
+        color: #2563eb;
+        text-align: center;
+      }
+      .card {
+        margin-bottom: 30px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #2563eb;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+      }
+      .btn:hover {
+        background-color: #1d4ed8;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      select,
+      input[type="file"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      .result {
+        margin-top: 20px;
+        border-top: 1px solid #eee;
+        padding-top: 20px;
+      }
+      .footer {
+        margin-top: 40px;
+        text-align: center;
+        color: #666;
+        font-size: 14px;
+      }
+      code {
+        background-color: #f5f5f5;
+        padding: 2px 5px;
+        border-radius: 3px;
+        font-family: monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>交通监控系统 API</h1>
+
+    <div class="card">
+      <h2>系统简介</h2>
+      <p>
+        本系统使用 <strong>EfficientNet</strong> 深度学习模型进行交通图像分析。
+        可以识别多种交通状况，包括：
+      </p>
+      <ul>
+        <li>交通事故 (accident)</li>
+        <li>交通拥堵 (dense)</li>
+        <li>交通火灾 (fire)</li>
+        <li>交通顺畅 (smooth)</li>
+      </ul>
+      <p>API 服务基于 FastAPI 构建，提供高性能、易用的 REST API。</p>
+    </div>
+
+    <div class="card">
+      <h2>API 文档</h2>
+      <p>完整的 API 文档可以通过以下链接访问：</p>
+      <p>
+        <a href="/docs" class="btn">Swagger 文档</a>
+        <a href="/redoc" class="btn" style="background-color: #059669"
+          >ReDoc 文档</a
+        >
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>快速测试</h2>
+      <form
+        action="/api/v1/predict"
+        method="post"
+        enctype="multipart/form-data"
+        id="uploadForm"
+      >
+        <div class="form-group">
+          <label for="model_name">选择模型：</label>
+          <select name="model_name" id="model_name">
+            <option value="efficientnet" selected>EfficientNet</option>
+            <option value="resnet">ResNet</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="file">选择交通图像：</label>
+          <input type="file" name="file" id="file" accept="image/*" required />
+        </div>
+
+        <button type="submit" class="btn">分析图像</button>
+      </form>
+
+      <div class="result" id="result" style="display: none">
+        <h3>分析结果：</h3>
+        <pre
+          id="resultJson"
+          style="
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+          "
+        ></pre>
+        <div id="resultImage" style="margin-top: 15px"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>API 示例</h2>
+      <p>使用 curl 发送预测请求：</p>
+      <pre><code>curl -X POST \
+  http://localhost:8000/api/v1/predict \
+  -H "Content-Type: multipart/form-data" \
+  -F "file=@/path/to/image.jpg" \
+  -F "model_name=efficientnet"</code></pre>
+    </div>
+
+    <div class="footer">
+      <p>交通监控系统 API - 基于 FastAPI 和 EfficientNet</p>
+    </div>
+
+    <script>
+      document
+        .getElementById("uploadForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const formData = new FormData(this);
+          const resultDiv = document.getElementById("result");
+          const resultJson = document.getElementById("resultJson");
+          const resultImage = document.getElementById("resultImage");
+
+          resultDiv.style.display = "none";
+          resultJson.textContent = "Loading...";
+
+          fetch("/api/v1/predict", {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              resultJson.textContent = JSON.stringify(data, null, 2);
+              resultDiv.style.display = "block";
+
+              // 显示图像
+              if (data.prediction && data.prediction.image_url) {
+                const img = document.createElement("img");
+                img.src = data.prediction.image_url;
+                img.style.maxWidth = "100%";
+                img.style.borderRadius = "5px";
+                resultImage.innerHTML = "";
+                resultImage.appendChild(img);
+              }
+            })
+            .catch((error) => {
+              resultJson.textContent = "Error: " + error.message;
+              resultDiv.style.display = "block";
+            });
+        });
+    </script>
+  </body>
+</html>

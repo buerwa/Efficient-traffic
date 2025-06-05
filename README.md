@@ -1,54 +1,198 @@
-# React + TypeScript + Vite
+# 🚗 交通实况识别系统
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+一个基于现代 Web 技术栈构建的智能交通实况识别与分析系统，能够实时识别和分析交通状况，为交通管理提供数据支持。
 
-Currently, two official plugins are available:
+## ✨ 系统特色
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 🔍 智能识别引擎
 
-## Expanding the ESLint configuration
+- **AI 图像识别**: 支持上传交通图像，自动识别四种交通状况
+  - 🟢 交通顺畅 - 车辆稀少，道路畅通
+  - 🟡 交通拥堵 - 车辆密集，行驶缓慢
+  - 🔴 交通事故 - 发生车辆碰撞或翻车
+  - 🔥 车辆起火 - 车辆着火，存在安全隐患
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 📊 数据分析可视化
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- **实时统计**: 交通状况分布饼图
+- **趋势分析**: 历史数据时间线图表
+- **智能报告**: 基于历史数据的统计分析
+
+### 🎨 现代化用户界面
+
+- **响应式设计**: 支持桌面端和移动端
+- **流畅动画**: 基于 Framer Motion 的精美交互动效
+- **直观操作**: Ant Design 组件库打造的专业 UI
+
+### 🔐 完整的用户系统
+
+- **权限管理**: 多级用户权限控制
+- **操作记录**: 完整的历史记录追踪
+- **数据安全**: 用户数据隔离与保护
+
+## 🛠️ 技术栈
+
+### 前端框架
+
+- **React 19** - 最新版本的 React 框架
+- **TypeScript** - 类型安全的 JavaScript 超集
+- **Vite** - 快速的构建工具
+
+### UI 组件与样式
+
+- **Ant Design 5.24** - 企业级 UI 设计组件库
+- **Ant Design Charts** - 专业数据可视化图表
+- **Framer Motion** - 高性能动画库
+
+### 路由与状态管理
+
+- **React Router Dom 7** - 客户端路由管理
+- **Axios** - HTTP 请求库
+
+### 开发工具
+
+- **ESLint** - 代码质量检查
+- **TypeScript ESLint** - TypeScript 代码规范
+
+## 🚀 快速开始
+
+### 环境要求
+
+- Node.js >= 16.0.0
+- npm 或 pnpm 或 yarn
+
+### 安装依赖
+
+```bash
+# 使用 npm
+npm install
+
+# 使用 pnpm (推荐)
+pnpm install
+
+# 使用 yarn
+yarn install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 启动开发服务器
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+# 启动开发环境
+npm run dev
+# 或
+pnpm dev
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+# 服务将运行在 http://localhost:5173
 ```
+
+### 构建生产版本
+
+```bash
+# 构建项目
+npm run build
+# 或
+pnpm build
+
+# 预览构建结果
+npm run preview
+# 或
+pnpm preview
+```
+
+## 📁 项目结构
+
+```
+frontend/
+├── public/                 # 静态资源
+├── src/
+│   ├── api/               # API接口封装
+│   ├── assets/            # 静态资源文件
+│   ├── layouts/           # 布局组件
+│   ├── pages/             # 页面组件
+│   │   ├── ImageRecognition.tsx   # 图像识别页面
+│   │   ├── TrafficAnalysis.tsx    # 数据分析页面
+│   │   ├── UserManagement.tsx     # 用户管理页面
+│   │   ├── History.tsx            # 历史记录页面
+│   │   └── Login.tsx              # 登录页面
+│   ├── router/            # 路由配置
+│   ├── types/             # TypeScript类型定义
+│   ├── App.tsx            # 主应用组件
+│   └── main.tsx           # 应用入口
+├── package.json           # 项目配置
+└── vite.config.ts         # Vite配置
+```
+
+## 🎯 主要功能
+
+### 1. 图像识别模块
+
+- 支持拖拽上传和粘贴上传图片
+- 实时显示识别进度
+- 详细的识别结果展示
+- 置信度评分显示
+
+### 2. 数据分析模块
+
+- 交通状况分布统计
+- 历史趋势分析
+- 可自定义分析时间范围
+- 实时数据刷新
+
+### 3. 历史记录管理
+
+- 完整的识别历史追踪
+- 支持按时间筛选
+- 详细的操作记录
+
+### 4. 用户管理系统
+
+- 用户注册与登录
+- 权限分级管理
+- 个人信息管理
+
+## 🔧 开发规范
+
+### 代码规范
+
+项目使用 ESLint 进行代码质量检查，运行以下命令检查代码：
+
+```bash
+npm run lint
+# 或
+pnpm lint
+```
+
+### 类型检查
+
+项目使用 TypeScript 进行类型检查，确保代码的类型安全。
+
+## 📈 性能优化
+
+- **代码分割**: 使用 React.lazy 进行路由级别的代码分割
+- **图片优化**: 支持现代图片格式，自动压缩优化
+- **缓存策略**: 合理的静态资源缓存配置
+- **Bundle 分析**: 使用 Vite 的内置分析工具优化打包体积
+
+## 🐛 问题反馈
+
+如果您在使用过程中遇到任何问题，请通过以下方式反馈：
+
+- 提交 Issue 到本仓库
+- 联系开发团队
+
+## 📄 许可证
+
+本项目采用 MIT 许可证 - 详情请查看 [LICENSE](LICENSE) 文件
+
+## 🤝 贡献指南
+
+欢迎提交 Pull Request 来改进项目！请确保：
+
+1. 代码符合项目的编码规范
+2. 提交前运行代码检查
+3. 添加适当的测试用例
+4. 更新相关文档
+
+---
+
+⭐ 如果这个项目对您有帮助，请给我一个 Star！
